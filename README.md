@@ -11,7 +11,7 @@ if you are cooperatively building a very large map composed of multiple schemati
 .assign - assign yourself a schematic to build.
 .manual <@mention> <x> <y> - [admin only] assign a user a specific section
 .complete <@mention(s)...> - [admin only] mark user(s) sections as complete.
-.forfeit <@mention(s)... - [admin only] remove a user from a section that they are not intending to complete
+.forfeit <@mention(s)...> - [admin only] remove a user from a section that they are not intending to complete
 .status - view the status of each section. (unassigned, in progress, complete)
 ```
 
