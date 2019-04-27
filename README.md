@@ -2,7 +2,7 @@
 a discord bot for automating team map art cooperation.
 
 ## usage
-if you are cooperatively building a very large map composed of multiple schematics, this is the discord bot for you. it makes it easy for users to assign tasks to themselves, and mark them complete when they're done. simply create a folder in the same directory as the JAR file for this bot, and drop all the schematics in. then, run the bot, and drop the discord token into the config file, and relaunch. the bot needs to be able to embed links and send messages.
+if you are cooperatively building a very large map composed of multiple schematics, this is the discord bot for you. it makes it easy for users to assign tasks to themselves, and mark them complete when they're done. simply create a folder called `schematic` in the same directory as the JAR file for this bot, and drop all the schematics in. then, run the bot, and drop the discord token into the config file, and relaunch. the bot needs to be able to embed links and send messages.
 
 > **hey!** schematic files must be named `x.y.schematic` (where x and y are section coords), or `section.x.y.schematic`
 
