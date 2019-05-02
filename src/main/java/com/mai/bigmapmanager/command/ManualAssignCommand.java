@@ -37,7 +37,7 @@ public class ManualAssignCommand extends SimpleCommand {
         try {
             char x = this.getArguments()[1].toCharArray()[0];
             int z = Integer.parseInt(this.getArguments()[2]);
-            int[] raw = IdentifierTranslator.getRaw(x, z);
+            int[] raw = IdentifierTranslator.getRaw(Character.toUpperCase(x), z);
             SchematicSection section = new SchematicSection(raw[0], raw[1]);
             if (Main.isFileCompletedOrInUse(section)) {
                 DiscordEmbedBuilder.error("Section already in-use", "This section was already completed or is currently in progress. It can't be assigned to another user.").submit();
