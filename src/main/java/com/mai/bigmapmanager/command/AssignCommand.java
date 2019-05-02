@@ -9,6 +9,8 @@ import com.mai.bigmapmanager.data.user.TrackedUser;
 import com.sasha.simplecmdsys.SimpleCommand;
 import net.dv8tion.jda.core.EmbedBuilder;
 
+import java.io.IOException;
+
 public class AssignCommand extends SimpleCommand {
 
     public AssignCommand() {
@@ -31,17 +33,26 @@ public class AssignCommand extends SimpleCommand {
         EmbedBuilder builder = DiscordEmbedBuilder.generalRaw("Task assigned", "You've been assigned section **" + section.toString() + "**. Sending the file to you in your DM's...");
         DiscordEvent.lastEvent.getChannel().sendMessage(builder.build()).queue(msg -> {
             DiscordEvent.lastEvent.getAuthor().openPrivateChannel().queue(dm -> {
-                dm.sendFile(SchematicStorage.getFileForSchemSection(section)).queue(success -> {
-                            builder.setDescription("You've been assigned section **" + section.toString() + "**. Sent the file to you in your DM's.");
-                            msg.editMessage(builder.build()).submit();
-                        },
-                        fail -> {
-                            user.forfeitSchematic();
-                            builder.setTitle("Task assignment failure");
-                            builder.setDescription("~~You've been assigned section **[redacted]**~~. Your privacy settings prevented me from sending you the file, so you have been removed from your task.");
-                            builder.setColor(0xa50013);
-                            msg.editMessage(builder.build()).submit();
-                        });
+                try {
+                    dm.sendFile(SchematicStorage.getFileForSchemSection(section)).queue(success -> {
+                                builder.setDescription("You've been assigned section **" + section.toString() + "**. Sent the file to you in your DM's.");
+                                msg.editMessage(builder.build()).submit();
+                            },
+                            fail -> {
+                                user.forfeitSchematic();
+                                builder.setTitle("Task assignment failure");
+                                builder.setDescription("~~You've been assigned section **[redacted]**~~. Your privacy settings prevented me from sending you the file, so you have been removed from your task.");
+                                builder.setColor(0xa50013);
+                                msg.editMessage(builder.build()).submit();
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    user.forfeitSchematic();
+                    builder.setTitle("Task assignment failure");
+                    builder.setDescription("~~You've been assigned section **[redacted]**~~. An internal server error occurred. Please tell an operator to check the stacktrace.");
+                    builder.setColor(0xa50013);
+                    msg.editMessage(builder.build()).submit();
+                }
             });
         });
 

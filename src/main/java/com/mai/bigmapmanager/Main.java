@@ -25,7 +25,7 @@ public class Main {
 
     public static JDA DISCORD;
     public static final SettingHandler SETTING_HANDLER = new SettingHandler("config");
-    public static final SimpleCommandProcessor COMMAND_PROCESSOR = new SimpleCommandProcessor(".");
+    public static final SimpleCommandProcessor COMMAND_PROCESSOR = new SimpleCommandProcessor("!");
     //vars//
     public static final ConfigVars CONFIG_VARS = new ConfigVars();
     public static List<TrackedUser> trackedUsers = new ArrayList<>();

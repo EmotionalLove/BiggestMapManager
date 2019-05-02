@@ -11,6 +11,7 @@ import com.sasha.simplecmdsys.SimpleCommand;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ManualAssignCommand extends SimpleCommand {
@@ -35,7 +36,7 @@ public class ManualAssignCommand extends SimpleCommand {
             return;
         }
         try {
-            char x = this.getArguments()[1].toCharArray()[0];
+            char x = this.getArguments()[1].trim().toCharArray()[0];
             int z = Integer.parseInt(this.getArguments()[2]);
             int[] raw = IdentifierTranslator.getRaw(Character.toUpperCase(x), z);
             SchematicSection section = new SchematicSection(raw[0], raw[1]);
@@ -48,17 +49,26 @@ public class ManualAssignCommand extends SimpleCommand {
             EmbedBuilder builder = DiscordEmbedBuilder.generalRaw("Task manually assigned", discordUser.getAsMention() + " has been assigned section **" + section.toString() + "**. Sending the file to the user's DM's...");
             DiscordEvent.lastEvent.getChannel().sendMessage(builder.build()).queue(msg -> {
                 discordUser.openPrivateChannel().queue(dm -> {
-                    dm.sendFile(SchematicStorage.getFileForSchemSection(section)).queue(success -> {
-                                builder.setDescription(discordUser.getAsMention() + " has been assigned section **" + section.toString() + "**. Sent the file to the user's DM's.");
-                                msg.editMessage(builder.build()).submit();
-                            },
-                            fail -> {
-                                trackedUser.forfeitSchematic();
-                                builder.setTitle("Task assignment failure");
-                                builder.setDescription("~~" + discordUser.getAsMention() + " has been assigned section **[redacted]**~~. The user's privacy settings prevented me from sending them the file, so they have been removed from the manually assigned task.");
-                                builder.setColor(0xa50013);
-                                msg.editMessage(builder.build()).submit();
-                            });
+                    try {
+                        dm.sendFile(SchematicStorage.getFileForSchemSection(section)).queue(success -> {
+                                    builder.setDescription(discordUser.getAsMention() + " has been assigned section **" + section.toString() + "**. Sent the file to the user's DM's.");
+                                    msg.editMessage(builder.build()).submit();
+                                },
+                                fail -> {
+                                    trackedUser.forfeitSchematic();
+                                    builder.setTitle("Task assignment failure");
+                                    builder.setDescription("~~" + discordUser.getAsMention() + " has been assigned section **[redacted]**~~. The user's privacy settings prevented me from sending them the file, so they have been removed from the manually assigned task.");
+                                    builder.setColor(0xa50013);
+                                    msg.editMessage(builder.build()).submit();
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        trackedUser.forfeitSchematic();
+                        builder.setTitle("Task assignment failure");
+                        builder.setDescription("~~" + discordUser.getAsMention() + " has been assigned section **[redacted]**~~. An internal server error occurred. Please tell an operator to check the stacktrace.");
+                        builder.setColor(0xa50013);
+                        msg.editMessage(builder.build()).submit();
+                    }
                 });
             });
             //

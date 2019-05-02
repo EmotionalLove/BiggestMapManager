@@ -14,7 +14,7 @@ public class DiscordEvent {
     public void onMsgRx(GuildMessageReceivedEvent e) {
         if (e.getAuthor().isBot()) return;
         String s = e.getMessage().getContentDisplay().toLowerCase();
-        if (s.startsWith(".")) {
+        if (s.startsWith("!")) {
             e.getChannel().sendTyping().queue(q -> {
                 System.out.println("processing command for " + e.getAuthor().getName() + "#" + e.getAuthor().getDiscriminator() + " in channel " + e.getChannel().getName());
                 lastEvent = e;

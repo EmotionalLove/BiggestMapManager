@@ -1,8 +1,12 @@
 package com.mai.bigmapmanager.data.schematic;
 
-import com.mai.bigmapmanager.data.schematic.SchematicSection;
+import com.mai.bigmapmanager.IdentifierTranslator;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,9 +14,20 @@ import java.util.Random;
 public class SchematicStorage {
 
     public static final String DIR = "schematic";
+    public static final String TMP_DIR = "tmp";
 
     private static File dir() {
         File file = new File(DIR);
+        if (!file.exists()) file.mkdir();
+        if (!file.isDirectory()) {
+            file.delete();
+            file.mkdir();
+        }
+        return file;
+    }
+
+    private static File tmp() {
+        File file = new File(TMP_DIR);
         if (!file.exists()) file.mkdir();
         if (!file.isDirectory()) {
             file.delete();
@@ -50,10 +65,16 @@ public class SchematicStorage {
         return new SchematicSection(x, z);
     }
 
-    public static File getFileForSchemSection(SchematicSection schematicSection) {
+    public static File getFileForSchemSection(SchematicSection schematicSection) throws IOException {
         File file = new File(dir(), schematicSection.x + "." + schematicSection.z + ".schematic");
         if (!file.exists()) throw new IllegalArgumentException("no file exists for the schemSection");
-        return file;
+        Object[] obj = IdentifierTranslator.getFormatted(schematicSection);
+        File tmp_file = new File(tmp(), obj[0] + "." + obj[1] + ".schematic");
+        tmp_file.createNewFile();
+        FileChannel src = new FileInputStream(file).getChannel();
+        FileChannel dest = new FileOutputStream(tmp_file).getChannel();
+        dest.transferFrom(src, 0, src.size());
+        return tmp_file;
     }
 
     public static int getSizeAllSchematics() {
