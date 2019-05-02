@@ -9,10 +9,10 @@ import net.dv8tion.jda.core.entities.User;
 
 import java.util.List;
 
-public class CompleteCommand extends SimpleCommand {
+public class FinishCommand extends SimpleCommand {
 
-    public CompleteCommand() {
-        super("complete");
+    public FinishCommand() {
+        super("finish");
     }
 
     @Override

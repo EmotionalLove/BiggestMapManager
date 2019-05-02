@@ -49,8 +49,8 @@ public class Main {
         }));
         COMMAND_PROCESSOR.register(AssignCommand.class);
         COMMAND_PROCESSOR.register(ForfeitCommand.class);
-        COMMAND_PROCESSOR.register(StatusCommand.class);
-        COMMAND_PROCESSOR.register(CompleteCommand.class);
+        COMMAND_PROCESSOR.register(DatabaseCommand.class);
+        COMMAND_PROCESSOR.register(FinishCommand.class);
         COMMAND_PROCESSOR.register(ManualAssignCommand.class);
         System.out.println("reading config...");
         SETTING_HANDLER.read(CONFIG_VARS);

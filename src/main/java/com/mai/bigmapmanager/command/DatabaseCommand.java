@@ -13,10 +13,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatusCommand extends SimpleCommand {
+public class DatabaseCommand extends SimpleCommand {
 
-    public StatusCommand() {
-        super("status");
+    public DatabaseCommand() {
+        super("database");
     }
 
     @Override
