@@ -52,6 +52,7 @@ public class Main {
         COMMAND_PROCESSOR.register(DatabaseCommand.class);
         COMMAND_PROCESSOR.register(FinishCommand.class);
         COMMAND_PROCESSOR.register(ManualAssignCommand.class);
+        COMMAND_PROCESSOR.register(LeaderboardCommand.class);
         System.out.println("reading config...");
         SETTING_HANDLER.read(CONFIG_VARS);
         String token = CONFIG_VARS.discordToken;
