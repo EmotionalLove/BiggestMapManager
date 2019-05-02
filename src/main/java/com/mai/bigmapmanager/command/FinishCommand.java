@@ -17,7 +17,15 @@ public class FinishCommand extends SimpleCommand {
 
     @Override
     public void onCommand() {
-        if (!Main.isAdmin(DiscordEvent.lastEvent.getGuild(), DiscordEvent.lastEvent.getAuthor().getIdLong())) return;
+        if (!Main.isAdmin(DiscordEvent.lastEvent.getGuild(), DiscordEvent.lastEvent.getAuthor().getIdLong())) {
+            if (this.getArguments() == null || this.getArguments().length != 1 || !this.getArguments()[0].startsWith("http")) {
+                DiscordEmbedBuilder.error("Missing Arguments", "Please provide a valid link to an image of the completed build.").submit();
+                return;
+            }
+            String ufo = "<@219229187175743500> ";
+            DiscordEmbedBuilder.general("Map is ready", ufo + ", please run !finish " + DiscordEvent.lastEvent.getAuthor().getAsMention() + " to mark this as complete.").submit();
+            return;
+        }
         List<User> mentions = DiscordEvent.lastEvent.getMessage().getMentionedUsers();
         if (mentions == null || mentions.size() == 0) {
             DiscordEmbedBuilder.error("Missing Arguments", "Please mention the person/people you would like to mark a task as complete from.").submit();

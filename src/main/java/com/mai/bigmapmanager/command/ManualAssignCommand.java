@@ -5,13 +5,10 @@ import com.mai.bigmapmanager.DiscordEvent;
 import com.mai.bigmapmanager.IdentifierTranslator;
 import com.mai.bigmapmanager.Main;
 import com.mai.bigmapmanager.data.schematic.SchematicSection;
-import com.mai.bigmapmanager.data.schematic.SchematicStorage;
 import com.mai.bigmapmanager.data.user.TrackedUser;
 import com.sasha.simplecmdsys.SimpleCommand;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ManualAssignCommand extends SimpleCommand {
@@ -45,7 +42,9 @@ public class ManualAssignCommand extends SimpleCommand {
                 return;
             }
             trackedUser.sectionInProgress = section;
+            DiscordEmbedBuilder.general("done", "done");
             //
+            /*
             EmbedBuilder builder = DiscordEmbedBuilder.generalRaw("Task manually assigned", discordUser.getAsMention() + " has been assigned section **" + section.toString() + "**. Sending the file to the user's DM's...");
             DiscordEvent.lastEvent.getChannel().sendMessage(builder.build()).queue(msg -> {
                 discordUser.openPrivateChannel().queue(dm -> {
@@ -71,6 +70,8 @@ public class ManualAssignCommand extends SimpleCommand {
                     }
                 });
             });
+
+             */
             //
         } catch (NumberFormatException xx) {
             DiscordEmbedBuilder.error("Invalid Arguments", "Format should be `.manual @mention x z` (example: `.manual @sasha_who 3 5`)").submit();

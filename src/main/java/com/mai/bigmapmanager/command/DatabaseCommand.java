@@ -39,16 +39,16 @@ public class DatabaseCommand extends SimpleCommand {
                 pages++;
             }
             if (!Main.isFileCompletedOrInUse(section)) {
-                builder.append("\n").append(section.toString()).append(" - unclaimed");
+                builder.append("\n").append(section.toString()).append(" - :red_circle: unclaimed");
                 i++;
                 continue;
             }
             TrackedUser user = Main.getUserForFileCompletedOrInUse(section);
             if (user.sectionInProgress != null && user.sectionInProgress.equals(section)) {
-                builder.append("\n").append(section.toString()).append(" - in progress by ").append(user.getUserFromId().getAsMention());
+                builder.append("\n").append(section.toString()).append(" - :large_orange_diamond: in progress by ").append(user.getUserFromId().getAsMention());
                 i++;
             } else {
-                builder.append("\n").append(section.toString()).append(" - completed by ").append(user.getUserFromId().getAsMention());
+                builder.append("\n").append(section.toString()).append(" - :white_check_mark: completed by ").append(user.getUserFromId().getAsMention());
                 i++;
             }
         }
