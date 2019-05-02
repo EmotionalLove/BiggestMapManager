@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.io.comparator.NameFileComparator.NAME_COMPARATOR;
+
 public class DatabaseCommand extends SimpleCommand {
 
     public DatabaseCommand() {
@@ -25,22 +27,24 @@ public class DatabaseCommand extends SimpleCommand {
         StringBuilder builder = new StringBuilder();
         List<SchematicSection> sections = new ArrayList<>();
         List<File> files = SchematicStorage.getAllSchematics();
+        files.sort(NAME_COMPARATOR);
         for (File file : files) {
             sections.add(SchematicStorage.getSchemSectionForFile(file));
         }
+        int complete = 0;
         files.clear();
         int i = 0;
         int pages = 1;
         for (SchematicSection section : sections) {
-            if (i >= 40) {
+            if (i >= 30) {
                 DiscordEmbedBuilder.general("Status of known tasks (page " + pages + ")", builder.toString()).submit();
                 builder = new StringBuilder();
                 i = 0;
                 pages++;
             }
             if (!Main.isFileCompletedOrInUse(section)) {
-                builder.append("\n").append(section.toString()).append(" - :red_circle: unclaimed");
-                i++;
+                //builder.append("\n").append(section.toString()).append(" - :red_circle: unclaimed");
+                //i++;
                 continue;
             }
             TrackedUser user = Main.getUserForFileCompletedOrInUse(section);
@@ -50,8 +54,10 @@ public class DatabaseCommand extends SimpleCommand {
             } else {
                 builder.append("\n").append(section.toString()).append(" - :white_check_mark: completed by ").append(user.getUserFromId().getAsMention());
                 i++;
+                complete++;
             }
         }
         DiscordEmbedBuilder.general("Status of known tasks (last page)", builder.toString()).submit();
+        DiscordEmbedBuilder.general("Statistics", "**Total Maps** " + sections.size() + "\n**Complete Maps** " + complete).submit();
     }
 }
