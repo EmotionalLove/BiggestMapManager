@@ -18,12 +18,12 @@ public class LeaderboardCommand extends SimpleCommand {
     public void onCommand() {
         StringBuilder builder = new StringBuilder();
         List<TrackedUser> sorted = Main.trackedUsers.stream().sorted((o1, o2) -> Integer.compare(o2.pastSections.size(), o1.pastSections.size())).collect(Collectors.toList());
-        int i = 1;
+        int i = 0;
         int lastamt = 0;
         for (TrackedUser trackedUser : sorted) {
             if (trackedUser.pastSections.isEmpty()) break;
-            builder.append(i).append(" - ").append(trackedUser.getUserFromId().getAsMention()).append(" - ").append(trackedUser.pastSections.size()).append(" completed maps\n");
             if (trackedUser.pastSections.size() != lastamt) i++;
+            builder.append(i).append(" - ").append(trackedUser.getUserFromId().getAsMention()).append(" - ").append(trackedUser.pastSections.size()).append(" completed maps\n");
             lastamt = trackedUser.pastSections.size();
         }
         DiscordEmbedBuilder.general("Leaderboard", builder.toString()).submit();
