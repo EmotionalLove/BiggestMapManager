@@ -1,5 +1,7 @@
 package com.mai.bigmapmanager.data.schematic;
 
+import com.mai.bigmapmanager.IdentifierTranslator;
+
 import java.io.Serializable;
 import java.util.Random;
 
@@ -31,7 +33,8 @@ public class SchematicSection implements Serializable {
 
     @Override
     public String toString() {
-        return this.x + ", " + this.z;
+        Object[] obj = IdentifierTranslator.getFormatted(this);
+        return obj[0] + ", " + obj[1];
     }
 
 }
