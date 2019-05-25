@@ -16,4 +16,4 @@ if you are cooperatively building a very large map composed of multiple schemati
 ```
 
 ## ty's
-ufocrossing for making me make this (and then throwing it out as soon as it was done :sob:)
+ufocrossing for making me make this owo
