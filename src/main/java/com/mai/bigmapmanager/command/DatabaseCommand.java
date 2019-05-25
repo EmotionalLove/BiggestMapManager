@@ -48,11 +48,13 @@ public class DatabaseCommand extends SimpleCommand {
                 continue;
             }
             TrackedUser user = Main.getUserForFileCompletedOrInUse(section);
+            User discorduser = user.getUserFromId();
+            String mention = discorduser == null ? "@Unknown User (id " + user.discordUserId + ")" : discorduser.getAsMention();
             if (user.sectionInProgress != null && user.sectionInProgress.equals(section)) {
-                builder.append("\n").append(section.toString()).append(" - :large_orange_diamond: in progress by ").append(user.getUserFromId().getAsMention());
+                builder.append("\n").append(section.toString()).append(" - :large_orange_diamond: in progress by ").append(mention);
                 i++;
             } else {
-                builder.append("\n").append(section.toString()).append(" - :white_check_mark: completed by ").append(user.getUserFromId().getAsMention());
+                builder.append("\n").append(section.toString()).append(" - :white_check_mark: completed by ").append(mention);
                 i++;
                 complete++;
             }
