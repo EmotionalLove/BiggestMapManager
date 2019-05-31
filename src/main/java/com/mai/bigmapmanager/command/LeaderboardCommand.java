@@ -23,7 +23,8 @@ public class LeaderboardCommand extends SimpleCommand {
         for (TrackedUser trackedUser : sorted) {
             if (trackedUser.pastSections.isEmpty()) break;
             if (trackedUser.pastSections.size() != lastamt) i++;
-            builder.append(i).append(" - ").append(trackedUser.getUserFromId().getAsMention()).append(" - ").append(trackedUser.pastSections.size()).append(" completed maps\n");
+            String mention = trackedUser.getUserFromId() == null ? "@Unknown User (id " + trackedUser.discordUserId + ")" : trackedUser.getUserFromId().getAsMention();
+            builder.append(i).append(" - ").append(mention).append(" - ").append(trackedUser.pastSections.size()).append(" completed maps\n");
             lastamt = trackedUser.pastSections.size();
         }
         DiscordEmbedBuilder.general("Leaderboard", builder.toString()).submit();
