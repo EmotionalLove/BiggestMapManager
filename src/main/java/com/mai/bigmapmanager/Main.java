@@ -35,8 +35,7 @@ public class Main {
     }
 
     public Main() throws LoginException, InterruptedException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        System.out.println(IdentifierTranslator.getRaw('K', 1)[1]);
-
+        //System.out.println(IdentifierTranslator.getRaw('K', 1)[1]);
         SchematicStorage.fixFiles();
         TrackedUserLoader.loadTrackedUsers();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
