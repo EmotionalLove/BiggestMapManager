@@ -75,6 +75,13 @@ public class Main {
         return new TrackedUser(id);
     }
 
+    public static TrackedUser getTrackedUserByDiscordId(String id) {
+        for (TrackedUser trackedUser : trackedUsers) {
+            if (String.valueOf(trackedUser.discordUserId).equalsIgnoreCase(id)) return trackedUser;
+        }
+        return new TrackedUser(Long.parseLong(id));
+    }
+
     public static TrackedUser getTrackedUserByDiscordId(User id) {
         for (TrackedUser trackedUser : trackedUsers) {
             if (trackedUser.discordUserId == id.getIdLong()) return trackedUser;
